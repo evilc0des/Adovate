@@ -91,3 +91,7 @@ uploads/
 # gcp configs
 cors.json
 service-account.json
+
+#package manager files
+yarn.lock
+package-lock.json
