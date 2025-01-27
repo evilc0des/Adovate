@@ -5,7 +5,6 @@ import { XCircleIcon } from '@heroicons/react/20/solid';
 import { CheckBadgeIcon } from '@heroicons/react/20/solid';
 import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
-import { AnalysisResult } from '@/types';
 import { BarLoader, ClipLoader } from 'react-spinners';
 import { useReports, Report } from '@/context/ReportContext';
 import { useRouter } from 'next/navigation';
@@ -22,7 +21,7 @@ const FileUpload = ({isWidget }: FileUploadProps) => {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [filePath, setFilePath] = useState('');
 
-    const { reports, addReport } = useReports();
+    const { addReport } = useReports();
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -47,7 +46,7 @@ const FileUpload = ({isWidget }: FileUploadProps) => {
         setIsUploading(true);
 
         try {
-            const response = await axios.post(`http://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/upload`, formData, {
+            const response = await axios.post(`https://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,
@@ -69,7 +68,7 @@ const FileUpload = ({isWidget }: FileUploadProps) => {
         setIsAnalyzing(true);
         try {
             // Fetch the analysis result
-            const response = await axios.post(`http://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/analyze`, {
+            const response = await axios.post(`https://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/analyze`, {
                 filePath, // Pass the correct file path from Firestore
             }, {
                 headers: {
