@@ -2,7 +2,7 @@ const { ChatOpenAI } = require('@langchain/openai');
 const { SystemMessage, HumanMessage } = require('@langchain/core/messages');
 const { ChatPromptTemplate } = require('@langchain/core/prompts');
 const { z } = require('zod');
-const openai = new ChatOpenAI({ apiKey: "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", model: "gpt-4o-mini" });
+const openai = new ChatOpenAI({ apiKey: process.env.OPENAI_API_KEY, model: "gpt-4o-mini" });
 
 const adAnalysisSchema = z.object({
   summary: z.string().describe('A concise summary of the performance of the ad data considering factors like ROAS, ACOS, CTR, click to purchase rate, etc. and suggestions for improvement.'),
