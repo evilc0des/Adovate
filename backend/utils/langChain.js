@@ -5,7 +5,7 @@ const { z } = require('zod');
 const openai = new ChatOpenAI({ apiKey: "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", model: "gpt-4o-mini" });
 
 const adAnalysisSchema = z.object({
-  summary: z.optional(z.string()).describe('A concise summary of the performance of the ad data considering factors like ROAS, ACOS, CTR, click to purchase rate, etc. and suggestions for improvement.'),
+  summary: z.string().describe('A concise summary of the performance of the ad data considering factors like ROAS, ACOS, CTR, click to purchase rate, etc. and suggestions for improvement.'),
   highPerformingKeywords: z.array(z.object({ 
     keyword: z.optional(z.string()).describe('The keyword that is performing well.'), 
     performance: z.optional(z.string()).describe('Insights and suggestions for the high performing keyword') })
@@ -14,7 +14,7 @@ const adAnalysisSchema = z.object({
     keyword: z.optional(z.string()).describe('The keyword that is performing poorly.'), 
     performance: z.optional(z.string()).describe('Insights and suggestions for the low performing keyword') })
   ).describe('Keywords that are performing poorly and need improvement.'),
-  suggestions: z.optional(z.string()).describe('General suggestions for improving the overall performance of the ad campaign.'),
+  suggestions: z.string().describe('General suggestions for improving the overall performance of the ad campaign.'),
 });
 
 const promptTemplate = ChatPromptTemplate.fromMessages([

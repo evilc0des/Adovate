@@ -6,9 +6,13 @@ import React, { createContext, useState, ReactNode, useContext } from 'react';
 export interface Report {
     id: string;
     analysisResult: AnalysisResult;
-    analysisTimestamp: string;
-    uploadTimestamp: string;
-    filepath: string;
+    analysisTimestamp: {
+        _seconds: number;
+    };
+    uploadTimestamp: {
+        _seconds: number;
+    };
+    filePath: string;
 }
 
 interface ReportContextProps {

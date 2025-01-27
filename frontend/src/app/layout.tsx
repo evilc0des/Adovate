@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from "./Components/Sidebar";
 import { AuthProvider } from '../context/AuthContext';
 import { ReportProvider } from "@/context/ReportContext";
+import Header from "./Components/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,15 @@ export default function RootLayout({
       <ReportProvider>
         <html lang="en">
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased flex items-stretch`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <Sidebar />
-            {children}
+            <div className="h-screen flex items-stretch">
+              <Sidebar />
+              <div className="grid grid-rows-[60px_1fr]">
+                <Header />
+                {children}
+              </div>
+            </div>
           </body>
         </html>
       </ReportProvider>

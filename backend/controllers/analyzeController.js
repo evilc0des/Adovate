@@ -26,7 +26,9 @@ exports.analyzeFile = async (req, res) => {
 
     // Populate Keyword stats in the analysis result
     analysisResult.highPerformingKeywords = analysisResult.highPerformingKeywords.map((keyword) => {
-      const keywordRow = adData.find((row) => row["Matched product "] === keyword.keyword);
+      console.log(Object.keys(adData[0]));
+      console.log(adData[0]['Product targets']);
+      const keywordRow = adData.find((row) => row['"Matched product "'] === keyword.keyword);
       return {
         ...keyword,
         impressions: keywordRow ? keywordRow["Impressions"] : null,
@@ -39,7 +41,7 @@ exports.analyzeFile = async (req, res) => {
       }
     });
     analysisResult.lowPerformingKeywords = analysisResult.lowPerformingKeywords.map((keyword) => {
-      const keywordRow = adData.find((row) => row["Matched product "] === keyword.keyword);
+      const keywordRow = adData.find((row) => row['"Matched product "'] === keyword.keyword);
       return {
         ...keyword,
         impressions: keywordRow ? keywordRow["Impressions"] : null,
@@ -61,19 +63,24 @@ exports.analyzeFile = async (req, res) => {
     // Update the file record with the analysis result
     const snapshot = await fileDocRef.get();
     if (!snapshot.empty) {
-      snapshot.forEach(async (doc) => {
-        await doc.ref.update({
+      Promise.all(snapshot.docs.map((doc) => doc.ref.update({
           analysisResult: analysisResult,
           analysisTimestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+        }))
+      ).then(() => {
+        // Fetch the updated document data
+        return snapshot.docs[0].ref.get();
+      }).then((updatedDoc) => {
+        // Send response with the updated file doc and id
+        res.json({
+          message: 'File analysis complete and saved in Firestore',
+          result: {
+            id: updatedDoc.id,
+            ...updatedDoc.data(),
+          },
         });
       });
     }
-
-    // Send response with analysis results
-    res.json({
-      message: 'File analysis complete and saved in Firestore',
-      analysisResult: analysisResult,
-    });
   } catch (error) {
     console.error('Error analyzing file:', error);
     res.status(500).send('Error analyzing file');
@@ -157,6 +164,10 @@ exports.getReport = async (req, res) => {
     }
 
     const reportData = doc.data();
+    res.json({
+      id: doc.id,
+      ...reportData,
+    });
   } catch (error) {
     console.error('Error retrieving report:', error);
     res.status(500).send('Error retrieving report');

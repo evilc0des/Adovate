@@ -40,20 +40,27 @@ export default function Home({ params }: ReportProps) {
                 setReport(report);
                 setAnalysisResult(report.analysisResult);
             } else {
-                axios.get(`http://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/reports/${reportId}`).then(({ data }) => {
-                    addReport(data);
-                    setReport(data);
-                    setAnalysisResult(data?.analysisResult);
-                }).catch((error) => {
-                    console.error('Error fetching analysis result:', error);
+                user?.getIdToken().then((token) => {
+                    axios.get(`http://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/reports/${reportId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }).then(({ data }) => {
+                        addReport(data);
+                        setReport(data);
+                        setAnalysisResult(data?.analysisResult);
+                    }).catch((error) => {
+                        console.error('Error fetching analysis result:', error);
+                    });
                 });
+                
             }
         }
     }, [reportId]);
 
     useEffect(() => {
-        if (report?.filepath) {
-            getDownloadURL(ref(storage, decodeURIComponent(report.filepath))).then((url) => {
+        if (report?.filePath) {
+            getDownloadURL(ref(storage, decodeURIComponent(report.filePath))).then((url) => {
                 d3.csv(url, d3.autoType).then((data) => {
                     setAdData(data);
                 }).catch((error) => {
@@ -63,7 +70,7 @@ export default function Home({ params }: ReportProps) {
                 console.error('Error fetching download URL:', error);
             });
         }
-    }, [report?.filepath]);
+    }, [report?.filePath]);
 
     useEffect(() => {
         if (adData === undefined) return;
@@ -73,14 +80,19 @@ export default function Home({ params }: ReportProps) {
         // Scatter Plot with CPC on one axis and ACOS on the other
         const plot = Plot.plot({
             marks: [
-              Plot.dot(adData, { x: "CPC(USD)", y: "ACOS", fill: "Matched product " }),
+              Plot.dot(adData, { x: "CPC(USD)", y: "ACOS", fill: "Matched product ", tip: {
+                fontSize: 16,
+              }, r: 4 }),
               Plot.ruleX([0]),
               Plot.ruleY([0]),
-              Plot.text(adData, { x: "CPC(USD)", y: "ACOS", text: "Matched product " })
             ],
             x: { label: "CPC" },
             y: { label: "ACOS" },
-            color: { legend: false }
+            color: { legend: false },
+            style: {
+                fontSize: "14px",
+            },
+            
           });
         if (chartRef.current) {
             chartRef.current.append(plot);
@@ -91,15 +103,15 @@ export default function Home({ params }: ReportProps) {
 
     return (
         !!user && !!report &&
-        <div className="grid grid-rows-[40px] grid-cols-3 items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)] w-full">
+        <div className="grid grid-rows-[1px] grid-cols-3 items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)] w-full">
             <div className="row-start-2 row-span-2 h-full col-span-1 p-8 px-16 w-full">
-                <div className="bg-background-alt p-8 rounded-md mb-4">
-                    <h3 className="text-yellow-200 font-light uppercase text-xs">{new Date(report.analysisTimestamp).toDateString()}</h3>
+                <FileUpload isWidget />
+                <div className="bg-background-alt p-8 rounded-md mt-4">
+                    <h3 className="text-yellow-200 font-light uppercase text-xs">{new Date(report.analysisTimestamp?._seconds * 1000).toDateString()}</h3>
                     <h2 className="text-2xl font-semibold text-white">Report #: {reportId}</h2>
-                    <h3 className="break-words text-white font-light text-sm">{report.filepath.split("/").pop()}</h3>
+                    <h3 className="break-words text-white font-light text-sm">{report.filePath?.split("/").pop()}</h3>
                 </div>
-                <FileUpload isWidget setAnalysisResult={setAnalysisResult} />
-                <div className="" ref={chartRef} />
+                <div className="bg-gray-100 p-4 mt-4 rounded-md" ref={chartRef} />
             </div>
             {
                 !!analysisResult.summary &&
