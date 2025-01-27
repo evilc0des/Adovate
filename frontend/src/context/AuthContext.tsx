@@ -18,7 +18,8 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType>({ 
     user: null, 
-    login: async () => {}, 
+    login: async (email: string, password: string) => { throw new Error("Not implemented"); }, 
+    loginWithGoogle: async () => { throw new Error("Not implemented"); }, 
     logout: async () => {} 
 });
 

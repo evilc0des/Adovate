@@ -5,6 +5,7 @@ import Sidebar from "./Components/Sidebar";
 import { AuthProvider } from '../context/AuthContext';
 import { ReportProvider } from "@/context/ReportContext";
 import Header from "./Components/Header";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +36,12 @@ export default function RootLayout({
           >
             <div className="h-screen flex items-stretch">
               <Sidebar />
-              <div className="grid grid-rows-[60px_1fr]">
-                <Header />
-                {children}
-              </div>
+              <Suspense fallback={<div>Loading...</div>}>
+                <div className="grid grid-rows-[60px_1fr]">
+                  <Header />
+                  {children}
+                </div>
+              </Suspense>
             </div>
           </body>
         </html>

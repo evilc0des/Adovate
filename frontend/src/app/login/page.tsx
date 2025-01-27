@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Image from "next/image";
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -20,8 +20,8 @@ const LoginPage: React.FC = () => {
     const handleEmailLogin = (event: React.FormEvent) => {
         event.preventDefault();
         // Handle email login logic here
-        const email: string = (event.target as HTMLFormElement).elements[0].value;
-        const password: string = (event.target as HTMLFormElement).elements[1].value;
+        const email: string = ((event.target as HTMLFormElement).elements[0] as HTMLInputElement).value;
+        const password: string = ((event.target as HTMLFormElement).elements[1] as HTMLInputElement).value;
 
         login(email, password).then(() => {
             router.push('/');
