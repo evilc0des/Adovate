@@ -16,6 +16,10 @@ graph TD;
     D -->|Responses| C
     C -->|Responses| B
     B -->|HTTP Responses| A
+    A -->|Firebase Authentication| E[Firebase Auth]
+    B -->|Firebase Authentication| E
+    B -->|Firestore Reads/Writes| F[Firebase Firestore]
+    B -->|Firebase Storage Upload/Download| G[Firebase Storage]
 ```
 
 ## Setup Instructions
@@ -72,6 +76,27 @@ graph TD;
 
 5. **Open the application:**
     - Navigate to `http://localhost:3000` in your browser to access the frontend.
+
+
+## Docker Instructions
+
+1. **Build and Run the Application using Docker Compose:**
+    - Ensure you are in the root directory of the project where the `docker-compose.yml` file is located.
+    - Run the following command to build and start the containers:
+        ```bash
+        docker-compose up --build
+        ```
+
+2. **Stop the Containers:**
+    - To stop the running containers, use:
+        ```bash
+        docker-compose down
+        ```
+
+3. **Access the Application:**
+    - Navigate to `http://localhost:3001` in your browser to access the frontend.
+    - The backend will be running on `http://localhost:3000`.
+    
 
 ## API Documentation
 
