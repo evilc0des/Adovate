@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
     const pathname = usePathname();
 
     useEffect(() => {
-        if (!user) {
+        if (!user && pathname !== '/login') {
             router.push(`/login?redirect=${pathname}`);
         }
     }, [user, router]);
@@ -61,8 +61,8 @@ const Sidebar: React.FC = () => {
                             {menuItems.map((item, index) => {
                                 const Icon = item.icon;
                                 return (
-                                    <li className="hover:bg-gray-700 text-center p-4" key={index}>
-                                        <a href={item.link}><Icon className="size-8 text-white" /></a>
+                                    <li className="hover:bg-gray-700 text-center p-4" key={index} onClick={() => router.push(item.link)}>
+                                        <Icon className="size-8 text-white" />
                                     </li>
                                 );
                             })}

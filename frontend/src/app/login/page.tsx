@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Image from "next/image";
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
