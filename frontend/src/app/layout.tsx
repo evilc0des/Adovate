@@ -37,7 +37,7 @@ export default function RootLayout({
             <div className="h-screen flex items-stretch">
               <Sidebar />
               <Suspense fallback={<div>Loading...</div>}>
-                <div className="grid grid-rows-[60px_1fr]">
+                <div className="grid grid-rows-[60px_1fr] h-full">
                   <Header />
                   {children}
                 </div>
