@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
     const pathname = usePathname();
 
     useEffect(() => {
-        if (!user && pathname !== '/login') {
+        if (!user && pathname !== '/login' && pathname !== '/signup') {
             router.push(`/login?redirect=${pathname}`);
         }
     }, [user, router]);
