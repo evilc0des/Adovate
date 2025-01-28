@@ -16,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     if (!user) return;
     user.getIdToken().then((token) => {
-      axios.get(`https://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/reports/recent`, {
+      axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/reports/recent`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

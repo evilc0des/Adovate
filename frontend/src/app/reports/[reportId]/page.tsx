@@ -41,7 +41,7 @@ export default function Home({ params }: ReportProps) {
                 setAnalysisResult(report.analysisResult);
             } else {
                 user?.getIdToken().then((token) => {
-                    axios.get(`https://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/reports/${reportId}`, {
+                    axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/reports/${reportId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

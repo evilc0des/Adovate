@@ -46,7 +46,7 @@ const FileUpload = ({isWidget }: FileUploadProps) => {
         setIsUploading(true);
 
         try {
-            const response = await axios.post(`https://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/upload`, formData, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ const FileUpload = ({isWidget }: FileUploadProps) => {
         setIsAnalyzing(true);
         try {
             // Fetch the analysis result
-            const response = await axios.post(`https://${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/analyze`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}:${process.env.NEXT_PUBLIC_SERVER_PORT}/analyze`, {
                 filePath, // Pass the correct file path from Firestore
             }, {
                 headers: {
