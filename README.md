@@ -1,7 +1,7 @@
 # Adovate - Ad Performance Agent
 Adovate is a comprehensive tool designed to analyze and optimize ad campaigns. It leverages advanced machine learning models and data analysis techniques to provide insights into the performance of various keywords used in ad campaigns. The tool helps marketers identify high-performing keywords, understand the reasons behind their success, and make data-driven decisions to improve the overall effectiveness of their ad campaigns. By analyzing key metrics such as ROAS, ACOS, CTR, and conversion rates, Ad Performance Agent provides actionable recommendations to enhance ad performance and maximize return on investment.
 
-LIVE DEMO: [Adovate - Ad Performance Agent](https://adovate-app.onrender.app/)
+LIVE DEMO: [Adovate - Ad Performance Agent](https://adovate-app.onrender.com/)
 P.S: The app is running on a free stage of render, so it may take a few seconds to load initially as the services are spun down after some inactivity.
 
 ## Project Overview
